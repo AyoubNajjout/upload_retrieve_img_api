@@ -6,8 +6,21 @@ from fastapi import FastAPI, HTTPException, UploadFile, File, Response
 from pydantic import BaseModel
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:5173",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["*"],
+)
 
 DATABASE_URL = "mysql+mysqlconnector://root:root@localhost/temp_db"
 engine = create_engine(DATABASE_URL)
